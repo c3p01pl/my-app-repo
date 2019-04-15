@@ -1,15 +1,22 @@
 version: '2'
 services:
     cepapp-app:
-        image: cepapp
+        image: c3p01pl/node-web-app:latest
         environment:
             - _JAVA_OPTIONS=-Xmx512m -Xms256m
             - SPRING_PROFILES_ACTIVE=prod,swagger
-            - SPRING_DATASOURCE_URL=jdbc:postgresql://cepapp-postgresql:5432/cepapp
+#            - SPRING_DATASOURCE_URL=jdbc:postgresql://cepapp-postgresql:5432/cepapp
             - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
         ports:
             - 8080:8080
+
     cepapp-postgresql:
-        extends:
-            file: postgresql.yml
-            service: cepapp-postgresql
+        image: postgres:latest
+        volumes:
+            - ~/volumes/jhipster/cepapp/postgresql/:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=pass4321
+        ports:
+            - 5432:5432
+
